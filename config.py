@@ -1,0 +1,4 @@
+token = ""
+adminPasswd = ""
+kidPasswd = ""
+parentPasswd = ""
