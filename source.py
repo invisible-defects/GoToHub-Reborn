@@ -433,7 +433,7 @@ def inline(c):
 
     elif c.data == 'ext':
         bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id, text='Вы вышли из квеста.')
-        bot.edit_message_reply_markup(rchat_id=c.message.chat.id, message_id=c.message.message_id, reply_markup=m.markup2)
+        bot.edit_message_reply_markup(chat_id=c.message.chat.id, message_id=c.message.message_id, reply_markup=m.markup2)
 
     elif c.data == 'text_faq':
         bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, reply_markup=m.categ,
