@@ -195,12 +195,12 @@ def playquest(message):
             out += str(row[0])
             break
         if out == '':
-            bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id,text="Неправильный ответ на вопрос!", reply_markup=m.markup4)
+            bot.send_message(chat_id=message.chat.id,text="Неправильный ответ на вопрос!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
         else:
             sql.edit("UPDATE quest SET " + team_dict[message.chat.id] + "=1 WHERE " +
                      team_dict[message.chat.id] + "=2 AND Answer='" + message.text + "' LIMIT 1;")
-            bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, text="Ответ верный. Браво!", reply_markup=m.markup4)
+            bot.send_message(chat_id=message.chat.id, text="Ответ верный. Браво!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
 
 
