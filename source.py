@@ -195,12 +195,12 @@ def playquest(message):
             out += str(row[0])
             break
         if out == '':
-            bot.send_message(message.chat.id, "Неправильный ответ на вопрос!", reply_markup=m.markup4)
+            bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, "Неправильный ответ на вопрос!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
         else:
             sql.edit("UPDATE quest SET " + team_dict[message.chat.id] + "=1 WHERE " +
                      team_dict[message.chat.id] + "=2 AND Answer='" + message.text + "' LIMIT 1;")
-            bot.send_message(message.chat.id, "Ответ верный. Браво!", reply_markup=m.markup4)
+            bot.edit_message_text(chat_id=message.chat.id, message_id=message.message_id, "Ответ верный. Браво!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
 
 
@@ -420,7 +420,7 @@ def inline(c):
             out += row[0]
             break
         if out == '':
-            bot.send_message(c.message.chat.id, "Поздравляем, вы прошли квест!", reply_markup=m.markup2)
+            bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, "Поздравляем, вы прошли квест!", reply_markup=m.markup2)
             cur = sql.select("SELECT ChatID FROM admin;")
             for row in cur:
                 chatid = str(row)
@@ -428,10 +428,10 @@ def inline(c):
                 bot.send_message(int(chatid), "Команда " + team_dict[c.message.chat.id] + " прошла квест!")
 
         else:
-            bot.send_message(c.message.chat.id, out, reply_markup=m.markup4)
+            bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, out, reply_markup=m.markup4)
 
     elif c.data == 'ext':
-        bot.send_message(c.message.chat.id, 'Вы вышли из квеста.', reply_markup=m.markup2)
+        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id,'Вы вышли из квеста.', reply_markup=m.markup2)
 
     elif c.data == 'text_faq':
         bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, reply_markup=m.categ,
