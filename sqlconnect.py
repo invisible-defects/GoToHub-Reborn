@@ -3,7 +3,7 @@ import pymysql
 
 
 def edit(*commands):
-    conn = pymysql.connect(host='localhost', user='shtirlets_goto', passwd='school', db='shtirlets_goto',
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='shtirlets_goto',
                            charset='utf8mb4')
     cur = conn.cursor()
     for command in commands:
@@ -14,7 +14,7 @@ def edit(*commands):
 
 
 def select(command):
-    conn = pymysql.connect(host='localhost', user='shtirlets_goto', passwd='school', db='shtirlets_goto',
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='shtirlets_goto',
                            charset='utf8mb4')
     cur = conn.cursor()
     cur.execute(command)
