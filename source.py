@@ -428,10 +428,12 @@ def inline(c):
                 bot.send_message(int(chatid), "Команда " + team_dict[c.message.chat.id] + " прошла квест!")
 
         else:
-            bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, text=out, reply_markup=m.markup4)
+            if not out == c.message.text:
+                bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, text=out, reply_markup=m.markup4)
 
     elif c.data == 'ext':
-        bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id,text='Вы вышли из квеста.', reply_markup=m.markup2)
+        bot.edit_message_text(chat_id=c.message.chat.id,message_id=c.message.message_id, text='Вы вышли из квеста.')
+        bot.edit_message_reply_markup(rchat_id=c.message.chat.id, message_id=c.message.message_id, reply_markup=m.markup2)
 
     elif c.data == 'text_faq':
         bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, reply_markup=m.categ,
