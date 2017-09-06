@@ -1,0 +1,28 @@
+1. Заполнить ДБ
+2. SQLalchemy
+3. БАГИ
+4. FAQ
+5. ФИЗАН
+SQL:
+
+text | adress | link | inline_data
+
+Для ответов выводит первое меню выбора и ответ.
+
+------------
+
+opcodes(!), работа интерперетатора
+
+Tkinter\PyQT\PySide(2)\wxPython\PyGTK
+
+cx_Freeze / pyInstaller / py2exe
+
+PyParsing
+
+PyEnchant - орфография
+
+Pygments
+
+progressive web apps
+
+instant websites \ instant apps \ promise = handler? \ аналогия promise в python \ 
