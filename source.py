@@ -14,7 +14,7 @@ import sqlconnect as sql
 
 print(config.token)
 bot = telebot.TeleBot(config.token)
-quest_dict = {}
+#quest_dict = {}
 team_dict = {}
 admin_quest = {}
 
@@ -189,8 +189,7 @@ def adminlog(message):
 def playquest(message):
     if message.content_type == 'text' and not (
                                     message.text == m.robosmile or message.text == m.smilepodmig or message.text == m.smiletrophy or message.text == m.smileclock or message.text == m.smilereg or message.text == m.smilemerop):
-        cur = sql.select("SELECT " + team_dict[message.chat.id] + " FROM " + quest_dict[
-            message.chat.id] + " WHERE Answer='" + message.text + "';")
+        cur = sql.select("SELECT " + team_dict[message.chat.id] + " FROM quest WHERE Answer='" + message.text + "';")
         out = ''
         for row in cur:
             out += str(row[0])
@@ -199,7 +198,7 @@ def playquest(message):
             bot.send_message(message.chat.id, "Неправильный ответ на вопрос!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
         else:
-            sql.edit("UPDATE " + quest_dict[message.chat.id] + " SET " + team_dict[message.chat.id] + "=1 WHERE " +
+            sql.edit("UPDATE quest SET " + team_dict[message.chat.id] + "=1 WHERE " +
                      team_dict[message.chat.id] + "=2 AND Answer='" + message.text + "' LIMIT 1;")
             bot.send_message(message.chat.id, "Ответ верный. Браво!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
@@ -213,7 +212,7 @@ def continuequest(message):
         team_dict.update({message.chat.id: teamid})
         try:
             cur = sql.select(
-                "SELECT Question FROM " + quest_dict[message.chat.id] + " WHERE " + team_dict[message.chat.id] + "=2;")
+                "SELECT Question FROM quest WHERE " + team_dict[message.chat.id] + "=2;")
             out = ''
             for row in cur:
                 out += str(row[0])
@@ -227,14 +226,14 @@ def continuequest(message):
                                  reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
         except Exception:
-            bot.send_message(message.chat.id, 'Неправильный ключ квеста\команды!', reply_markup=m.markup2)
+            bot.send_message(message.chat.id, 'Неправильное имя команды!', reply_markup=m.markup2)
 
 
-def startquest(message):
-    questid = "quest_" + message.text
-    quest_dict.update({message.chat.id: questid})
-    bot.send_message(message.chat.id, 'Введите идентификатор команды.')
-    bot.register_next_step_handler(message, continuequest)
+#def startquest(message):
+#    questid = "quest_" + message.text
+#    quest_dict.update({message.chat.id: questid})
+#    bot.send_message(message.chat.id, 'Введите идентификатор команды.')
+#    bot.register_next_step_handler(message, continuequest)
 
 
 def userlog(message):
@@ -251,9 +250,9 @@ def userlog(message):
         bot.send_message(message.chat.id, out, parse_mode="HTML")
 
     elif message.text == m.robosmile:
-        bot.send_message(message.chat.id, 'Введите идентификатор квеста, который вы хотите пройти.',
+        bot.send_message(message.chat.id, 'Введите название вашей команды!',
                          reply_markup=m.hide)
-        bot.register_next_step_handler(message, startquest)
+        bot.register_next_step_handler(message, continuequest)
 
     elif message.text == m.smilepodmig:
         bot.send_message(message.chat.id, 'Выберите раздел!', reply_markup=m.markup5, parse_mode="HTML")
@@ -265,7 +264,7 @@ def userlog(message):
         bot.send_message(message.chat.id, user.housing(message.chat.id), reply_markup=m.markup2, parse_mode="HTML")
 
     elif message.text == m.questions:
-        bot.send_message(message.chat.id, 'Помогите нам улучшить бота! \n'
+        bot.send_message(message.chat.id, '<b>Помогите нам улучшить бота!<b> \n'
                                           'Мы тестируем систему автоматического поиска ответа на Ваши вопросы. Если '
                                           'Вы хотите её опробовать, нажмите на галочку. Чтобы найти ответ на вопрос '
                                           'вручную, нажмите на крестик.', reply_markup=m.selection_markup, parse_mode="HTML")
@@ -292,7 +291,7 @@ def parentlog(message):
         bot.send_photo(message.chat.id, 'http://www.ivolga-activ.ru/images/news/ivolga_map_big.jpg')
 
     elif message.text == m.questions:
-        bot.send_message(message.chat.id, 'Помогите нам улучшить бота! \n'
+        bot.send_message(message.chat.id, '<b>Помогите нам улучшить бота!<b> \n'
                                           'Мы тестируем систему автоматического поиска ответа на Ваши вопросы. Если '
                                           'Вы хотите её опробовать, нажмите на галочку. Чтобы найти ответ на вопрос '
                                           'вручную, нажмите на крестик.', reply_markup=m.selection_markup)
@@ -415,7 +414,7 @@ def start(message):
 def inline(c):
     if c.data == 'next':
         cur = sql.select(
-            "SELECT Question FROM " + quest_dict[c.message.chat.id] + " WHERE " + team_dict[c.message.chat.id] + "=2;")
+            "SELECT Question FROM quest WHERE " + team_dict[c.message.chat.id] + "=2;")
         out = ''
         for row in cur:
             out += row[0]
@@ -426,8 +425,7 @@ def inline(c):
             for row in cur:
                 chatid = str(row)
                 chatid = chatid[1:-2]
-                bot.send_message(int(chatid), "Команда " + team_dict[c.message.chat.id] + " прошла квест "
-                                 + (quest_dict[c.message.chat.id])[6:] + "!")
+                bot.send_message(int(chatid), "Команда " + team_dict[c.message.chat.id] + " прошла квест!")
 
         else:
             bot.send_message(c.message.chat.id, out, reply_markup=m.markup4)
@@ -455,7 +453,7 @@ def inline(c):
         cur = sql.select("SELECT link FROM faq_db WHERE adress ='" + next_link + "';")
         for row in cur:
             following_link = row[0]
-            break
+    #        break
         if following_link == 'stop':
             cur = sql.select("SELECT text FROM faq_db WHERE adress ='" + next_link + "';")
             for row in cur:
