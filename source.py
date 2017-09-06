@@ -194,7 +194,7 @@ def playquest(message):
         for row in cur:
             out += str(row[0])
             break
-        if out == '':
+        if out == '' or out == '1':
             bot.send_message(chat_id=message.chat.id,text="Неправильный ответ на вопрос!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
         else:
