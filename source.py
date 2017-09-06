@@ -420,7 +420,7 @@ def inline(c):
             out += row[0]
             break
         if out == '':
-            bot.edit_message_text(chat_id=c.message.chat.id, message_id=c.message.message_id, text="Поздравляем, вы прошли квест!", reply_markup=m.markup2)
+            bot.send_message(chat_id=c.message.chat.id, text="Поздравляем, вы прошли квест!", reply_markup=m.markup2)
             cur = sql.select("SELECT ChatID FROM admin;")
             for row in cur:
                 chatid = str(row)
