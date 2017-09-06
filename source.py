@@ -192,9 +192,10 @@ def playquest(message):
         cur = sql.select("SELECT " + team_dict[message.chat.id] + " FROM quest WHERE Answer='" + message.text + "';")
         out = ''
         for row in cur:
-            out += str(row[0])
-            break
-        if out == '' or out == '1':
+            if str(row[0]) != '1':
+                out += str(row[0])
+                break
+        if out == '':
             bot.send_message(chat_id=message.chat.id,text="Неправильный ответ на вопрос!", reply_markup=m.markup4)
             bot.register_next_step_handler(message, playquest)
         else:
@@ -424,8 +425,12 @@ def inline(c):
             cur = sql.select("SELECT ChatID FROM admin;")
             for row in cur:
                 chatid = str(row)
-                chatid = chatid[1:-2]
-                bot.send_message(int(chatid), "Команда " + team_dict[c.message.chat.id] + " прошла квест!")
+                if chatid != '':
+                    try:
+                        chatid = chatid[1:-2]
+                        bot.send_message(int(chatid), "Команда " + team_dict[c.message.chat.id] + " прошла квест!")
+                    except:
+                        pass
 
         else:
             if not out == c.message.text:
