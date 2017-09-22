@@ -158,6 +158,6 @@
 
 Если у вас остались какие то вопросы, связаться со мной можно:  
 vk: [Александр Воронков](https://vk.com/pois0n)  
-telegram: @diveintodarkness  
+telegram: @LifetimeAlone  
 Спасибо за просмотр!  
 Март 2017
